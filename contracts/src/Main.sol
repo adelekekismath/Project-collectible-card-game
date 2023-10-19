@@ -18,6 +18,7 @@ contract Main {
   }
 
   function getAllCollections() external returns(mapping(int => Collection)){
+    require(msg.sender == superAdminAddress || msg.sender == owner, "Unauthorized");
     return collections;
   }
 }
