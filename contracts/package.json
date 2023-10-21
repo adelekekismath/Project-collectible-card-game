@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "DOTENV_CONFIG_PATH=../.env hardhat node --export ../frontend/src/contracts.json --watch",
+    "dev": "hardhat node --export ../frontend/src/contracts.json --watch",
     "console": "DOTENV_CONFIG_PATH=../.env hardhat console",
     "compile": "DOTENV_CONFIG_PATH=../.env hardhat compile",
     "deploy:local": "DOTENV_CONFIG_PATH=../.env hardhat deploy --network localhost --export ../frontend/src/contracts.json",
@@ -17,6 +17,7 @@
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^5.0.0",
     "@typechain/ethers-v5": "^10.1.0",
     "@typechain/hardhat": "^6.1.3",
     "@types/chai": "^4.3.3",

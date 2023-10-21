@@ -1,16 +1,16 @@
-import 'dotenv/config'
-import 'hardhat-deploy'
-import { HardhatUserConfig } from 'hardhat/config'
 import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-waffle'
 import '@typechain/hardhat'
-import 'hardhat-gas-reporter'
+import 'dotenv/config'
 import 'hardhat-abi-exporter'
+import 'hardhat-deploy'
+import 'hardhat-gas-reporter'
+import { HardhatUserConfig } from 'hardhat/config'
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
 const config: HardhatUserConfig = {
-  solidity: '0.8.16',
+  solidity: '0.8.20',
   paths: {
     deploy: './deploy',
     sources: './src',
