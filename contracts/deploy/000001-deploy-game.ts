@@ -1,14 +1,25 @@
-import 'dotenv/config'
-import { DeployFunction } from 'hardhat-deploy/types'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ethers } from "hardhat";
 
-const Web3 = require('web3')
-const rpcURL = "https://mainnet.infura.io/YOUR_INFURA_API_KEY"
-
-
-const deployer: DeployFunction = async hre => {
-  if (hre.network.config.chainId !== 31337) return
-  const { deployer } = await hre.getNamedAccounts()
-  await hre.deployments.deploy('Main', { from: deployer, log: true })
+async function main() {
+  // const contract = await ethers.deployContract("Main");
+  // await contract.deployed();
+  // console.log("Se deployed to SEPOLIA", contract.address);
+  //Se deployed to SEPOLIA 0x2f4d5Ef6C6dcA8eB102b30E41e5403fF6fd49CA0
+  const contract = await ethers.deployContract("NFTCard");
+  await contract.deployed();
+  console.log("NFT deployed to SEPOLIA", contract.address);
 }
 
-export default deployer
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+
+
+
+
+
+
+
