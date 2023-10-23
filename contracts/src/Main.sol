@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "./Collection.sol";
+import "./NFTCard.sol";
 
 contract Main {
   int private count;
@@ -21,15 +22,42 @@ contract Main {
     collections[collectionId].addCard(numero, img, owner);
   }
 
-  // function getAllCollection() external returns (Collection[] )  {
-  //   Collection[] collections  = new Collection[](count); 
+  function getAllCollection() external view returns (Collection[] memory )  {
+    Collection[] memory allCollections = new Collection[](uint256(count)); 
 
-  //   for (int i = 0; i < collectionCount(); i++) {
-  //       names[uint(i)] = collections[i].name;
-  //   }
+    for (int i = 0; i < count; i++) {
+        allCollections[uint256(i)] = collections[i];
+    }
+    return allCollections;
+  }
 
-  //   return names;
-  // }
+  function getOneCollection(int collectionId) external view returns (Collection ){
+    return collections[collectionId];
+  }
 
+  function getACollectionCards(int collectionId) external view returns (NFTCard[] memory){
+    return collections[collectionId].getAllCards();
+  }
+
+ function getUserCards(address owner) external view returns (NFTCard[] memory) {
+    NFTCard[] memory allCards;
+    uint256 cardCount = 0;
+
+    for (int i = 0; i < count; i++) {
+        NFTCard[] memory collectionCards = collections[i].getAllCards();
+        for (uint256 j = 0; j < collectionCards.length; j++) {
+            if (collectionCards[j].getOwner() == owner) {
+                NFTCard[] memory newCards = new NFTCard[](cardCount + 1);
+                for (uint256 k = 0; k < cardCount; k++) {
+                    newCards[k] = allCards[k];
+                }
+                newCards[cardCount] = collectionCards[j];
+                allCards = newCards;
+                cardCount++;
+            }
+        }
+    }
+    return allCards;
+  }
 
 }

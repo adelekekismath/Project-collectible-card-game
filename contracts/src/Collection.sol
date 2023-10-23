@@ -17,4 +17,13 @@ contract Collection {
     cards[cardCount] = new NFTCard(number,img, owner);
   }
 
+  function getAllCards() external view returns (NFTCard[] memory){
+    NFTCard[] memory allCards = new NFTCard[](uint256(cardCount)); 
+
+    for (int i = 0; i < cardCount; i++) {
+        allCards[uint256(i)] = cards[i];
+    }
+    return allCards;
+  }
+
 }
