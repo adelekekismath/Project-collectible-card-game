@@ -9,12 +9,15 @@ contract NFTCard is ERC721 {
     int private number;
     string private img;
     address private owner;
-    uint256 public tokenCount;
 
     constructor(int _number, string memory _img, address _owner) ERC721("POKEMON", "CardNFT") {
         number = _number;
         img = _img;
         owner = _owner;
+    }
+
+    function getOwner() external view returns (address) {
+        return owner;
     }
 
 }
