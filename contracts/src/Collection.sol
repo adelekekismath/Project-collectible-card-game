@@ -5,14 +5,16 @@ import "./NFTCard.sol";
 contract Collection {
   string public name;
   int public cardCount;
-  NFTCard[] public cards;
+  mapping(int =>NFTCard) private cards;
+  
 
   constructor(string memory _name, int _cardCount) {
     name = _name;
     cardCount = _cardCount;
   }
 
-  function addCard(int number,string memory img,uint256 tokenCount, uint256 tokenURI) public{
+  function addCard(int number,string memory img, address owner ) public{
+    cards[cardCount] = new NFTCard(number,img, owner);
   }
 
 }
