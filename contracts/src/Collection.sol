@@ -14,16 +14,16 @@ contract Collection {
   }
 
   function addCard(int number,string memory img, address owner ) public{
-    cards[cardCount] = new NFTCard(number,img, owner);
+    // cards[cardCount] = new NFTCard(number,img, owner);
   }
 
-  function getAllCards() external view returns (NFTCard[] memory){
-    NFTCard[] memory allCards = new NFTCard[](uint256(cardCount)); 
+  // function getAllCards() external view returns (NFTCard[] memory){
+  //   NFTCard[] memory allCards = new NFTCard[](uint256(cardCount)); 
 
-    for (int i = 0; i < cardCount; i++) {
-        allCards[uint256(i)] = cards[i];
-    }
-    return allCards;
-  }
+  //   for (int i = 0; i < cardCount; i++) {
+  //       allCards[uint256(i)] = cards[i];
+  //   }
+  //   return allCards;
+  // }
 
 }
