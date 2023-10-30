@@ -25,25 +25,33 @@
   <!-- Body-->
     <v-main>
       <div>
-        <v-row>
-          <div
-            style="margin-left: 5em; margin-top: 3em"
-            v-for="(pokemon, index) in resultQuery"
-            :key="pokemon.url"
-          >
-          <!-- Display each pokemon-->
-            <DisplayPokemon
-              :id="index + 1"
-              :name="pokemon.name"
-              :url="pokemon.url"
-            />
-          </div>
-          <!-- Scroller reference-->
-          <div id="scroll-trigger" ref="infinitescrolltrigger">
-           
-          </div>
-        </v-row>
-      </div>
+    <h1>Collections de Cartes Pokémon</h1>
+    <v-row>
+      <v-col v-for="collection in collections" :key="collection.id" cols="4">
+        <v-card>
+          <v-card-title>{{ collection.name }}</v-card-title>
+          <v-card-text>
+            <p>{{ collection.cardCount }} Cartes</p>
+            <v-list>
+              <v-list-item
+                v-for="card in collection.cards"
+                :key="card.id"
+                link
+              >
+                <v-list-item-avatar>
+                  <v-img :src="card.images.small" alt="Card Image" />
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title>{{ card.name }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ card.rarity }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
     </v-main>
 
 <!-- Footer-->
@@ -52,21 +60,31 @@
       class="text-center"
       cols="12"
     >
-       © 2022 — <strong>Pokedex</strong>
+       © 2023 — <strong>Pokedex</strong>
     </v-col>
   </v-footer>
   </div>
 </template>
 
 <script>
-import DisplayPokemon from "./components/DisplayPokemon";
+//import DisplayPokemon from "./components/DisplayPokemon";
 //import axios from "axios";
 
 export default {
   name: "App",
 
-  components: {
-    DisplayPokemon,
+  // components: {
+  //   DisplayPokemon,
+  // },
+  mounted() {
+    // Utilisez Fetch pour charger le fichier JSON
+    fetch("test.json")
+      .then(response => response.json())
+      .then(data => {
+        this.collections = data; // Mettez à jour les données JSON
+      })
+      .catch(error => console.error("Erreur de chargement du fichier JSON :", error));
+      //this.scrollTrigger();
   },
   data: () => {
     return {
@@ -74,12 +92,10 @@ export default {
       NextApiLink: "",
       currentUrl: "",
       searchText: null,
+      collections : []
     };
   },
 
-  mounted() {
-    this.scrollTrigger();
-  },
 
   created() {
     this.currentUrl = "https://api.pokemontcg.io/v2/cards?pageSize=100";

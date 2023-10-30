@@ -1,63 +1,56 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
-
 import "./Collection.sol";
-import "./NFTCard.sol";
 
-contract Main {
-  int private count;
-  mapping(int =>Collection) private collections;
-  address private superAdmin;
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 
-  constructor() {
-    count = 0;
-    superAdmin = msg.sender;
-  }
+contract Main is Ownable, ERC721Enumerable, ERC721Pausable {
+    using SafeMath for uint256;
+    using Counters for Counters.Counter;
+    
+    Counters.Counter private _collectionIds;
+    
+    // Mapping to store the collection data
+    mapping(uint256 => Collection) public collections;
+    
+    // Modifier to ensure that the caller is the owner of a collection
+    modifier onlyCollectionOwner(uint256 collectionId) {
+        require(collections[collectionId].owner == msg.sender, "Vous n'êtes pas le propriétaire de cette collection.");
+        _;
+    }
 
-  // function createCollection(string calldata name, int cardCount) external {
-  //   collections[count++] = new Collection(name, cardCount);
-  // }
+    constructor() ERC721("MainCollection", "MNC") {
+    }
 
-  // function createNFT(int numero, string calldata  img, int collectionId,address owner) external{
-  //   collections[collectionId].addCard(numero, img, owner);
-  // }
+    // Function to create a new collection
+    function createCollection(string memory name, uint256 cardCount) external returns (uint256) {
+        require(cardCount > 0, "Le nombre de cartes doit être supérieur à zéro.");
+        _collectionIds.increment();
+        uint256 collectionId = _collectionIds.current();
+        _mint(msg.sender, collectionId);
+        collections[collectionId] = Collection(name, cardCount, msg.sender);
+        return collectionId;
+    }
 
-  // function getAllCollection() external view returns (Collection[] memory )  {
-  //   Collection[] memory allCollections = new Collection[](uint256(count)); 
+    // Function to assign a card to a user
+    function assignCard(uint256 collectionId, uint256 tokenId, address to) external onlyOwner {
+        require(collections[collectionId].owner == msg.sender, "Vous n'êtes pas le propriétaire de cette collection.");
+        require(ownerOf(tokenId) == msg.sender, "Vous devez posséder la carte pour pouvoir l'attribuer.");
+        require(collectionId <= _collectionIds.current(), "Cette collection n'existe pas.");
+        safeTransferFrom(msg.sender, to, tokenId);
+    }
 
-  //   for (int i = 0; i < count; i++) {
-  //       allCollections[uint256(i)] = collections[i];
-  //   }
-  //   return allCollections;
-  // }
+    // Additional functions for managing collections
+    // ...
 
-  // function getOneCollection(int collectionId) external view returns (Collection ){
-  //   return collections[collectionId];
-  // }
+    // Pause and unpause functions to control NFT transfers
+    function pause() external onlyOwner {
+        _pause();
+    }
 
-  // function getACollectionCards(int collectionId) external view returns (NFTCard[] memory){
-  //   return collections[collectionId].getAllCards();
-  // }
-
-//  function getUserCards(address owner) external view returns (NFTCard[] memory) {
-//     NFTCard[] memory allCards;
-//     uint256 cardCount = 0;
-
-//     for (int i = 0; i < count; i++) {
-//         NFTCard[] memory collectionCards = collections[i].getAllCards();
-//         for (uint256 j = 0; j < collectionCards.length; j++) {
-//             if (collectionCards[j].getOwner() == owner) {
-//                 NFTCard[] memory newCards = new NFTCard[](cardCount + 1);
-//                 for (uint256 k = 0; k < cardCount; k++) {
-//                     newCards[k] = allCards[k];
-//                 }
-//                 newCards[cardCount] = collectionCards[j];
-//                 allCards = newCards;
-//                 cardCount++;
-//             }
-//         }
-//     }
-//     return allCards;
-//   }
-
+    function unpause() external onlyOwner {
+        _unpause();
+    }
 }

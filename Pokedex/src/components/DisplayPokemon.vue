@@ -3,26 +3,10 @@
     <div>
       <v-col>
         <!-- Card -->
-        <figure class="card" :class="'card--' + pokemon.types[0]">
-          <div class="card__image-container">
-            <img :src="pokemon.image" alt="Eevee" class="card__image" />
-          </div>
+        
+            <v-img class="rounded-image" :width="373" :src="pokemon.images.large" max alt="Eevee" ></v-img>
 
-          <figcaption class="card__caption">
-            <h1 class="card__name">{{ name }}</h1>
-            <h3 class="card__type">{{ pokemon.types.join(" & ") }}</h3>
-
-            <table class="card__stats">
-              <tbody>
-                <tr></tr>
-
-                <tr>
-                  <th>Id</th>
-                  <td>{{ id }}</td>
-                </tr>
-              </tbody>
-            </table>
-            <v-btn
+          <!-- <v-btn
               @click="showModal = true"
               class="mx-2 center"
               fab
@@ -30,9 +14,7 @@
               color="blue"
             >
               <v-icon dark> mdi-plus </v-icon>
-            </v-btn>
-          </figcaption>
-        </figure>
+            </v-btn> -->
       </v-col>
     </div>
     <!-- Modal to show more detail about pokemon-->
@@ -46,41 +28,20 @@
 </template>
 
 <script>
-import axios from "axios";
 import Detail from "./Detail.vue";
 
 export default {
   name: "DisplayPokemon",
-
+  
   components: {
     Detail,
-  },
-  // Get some pokemon's attributes
-  created: function () {
-    axios.get(this.url).then((response) => {
-      response.data.types.forEach((type) => {
-        this.pokemon.types.push(type.type.name);
-      });
-      this.pokemon.image = response.data.sprites.front_default;
-      this.pokemon.heigth = response.data.height;
-      this.pokemon.weight = response.data.weight;
-      this.pokemon.base_experience = response.data.base_experience;
-      this.pokemon.abilities = response.data.abilities;
-    });
   },
 
   data() {
     return {
       isFront: true,
       currentImg: "",
-      pokemon: {
-        types: [],
-        image: "",
-        heigth: "",
-        weight: "",
-        base_experience: "",
-        abilities: "",
-      },
+   
       showModal: false,
     };
   },
@@ -88,11 +49,16 @@ export default {
     id: Number,
     name: String,
     url: String,
+    pokemon : Object
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
+.rounded-image {
+  border-radius: 5%;
+}
 header {
   display: flex;
   align-items: center;
