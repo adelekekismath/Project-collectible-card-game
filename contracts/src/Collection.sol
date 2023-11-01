@@ -11,18 +11,16 @@ contract Collection is ERC721Enumerable, Ownable {
 
     mapping(uint256 => string) private cardMetadata; // Mapping pour stocker les métadonnées des NFT
 
-    constructor(string memory name, uint256 distinctCardsAllowed) ERC721("CollectionName", "COLL") {
-        collectionName = name;
-        cardCount = distinctCardsAllowed;
+    constructor() ERC721("CollectionName", "COLL") Ownable(msg.sender) {
         nextTokenId = 1;
     }
 
-    function addCard(string memory metadata) external onlyOwner {
-        //require(cardCount < maxCards, "La collection est pleine");
+    function addCard(string memory metadata, address user) external onlyOwner {
+        // require(cardCount < maxCards, "La collection est pleine");
 
         uint256 tokenId = nextTokenId;
         cardMetadata[tokenId] = metadata;
-        _mint(msg.sender, tokenId);
+        _mint(user, tokenId);
         cardCount++;
         nextTokenId++;
 
@@ -35,11 +33,14 @@ contract Collection is ERC721Enumerable, Ownable {
     }
 
     function transferCard(address to, uint256 tokenId) external {
-      require(_isApprovedOrOwner(msg.sender, tokenId), "Vous ne pouvez transférer que vos propres cartes");
+      require(isApprovedOrOwner(msg.sender, tokenId), "Vous ne pouvez transferer que vos propres cartes");
       safeTransferFrom(msg.sender, to, tokenId);
     }
 
+    function isApprovedOrOwner(address spender, uint256 tokenId) internal view returns (bool) {
+        address owner = ownerOf(tokenId);
+        return (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner, spender));
+    }
 
     event CardAdded(uint256 tokenId, string metadata);
-
 }

@@ -24,21 +24,21 @@
 // });
 const { ethers } = require('ethers');
 
-const provider = new ethers.providers.StaticJsonRpcProvider({ url:'http://localhost:8545'});
+const provider = new ethers.providers.StaticJsonRpcProvider({ url:'http://127.0.0.1:8545/'});
 const wallet = new ethers.Wallet('ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80', provider);
 
 // Load your NFT smart contract (replace with your contract address and ABI)
 const contractAddress = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
-const contract = require("../artifacts/src/NFTCard.sol/NFTCard.json");
+const contract = require("../artifacts/src/Collection.sol/Collection.json");
 const contractABI = contract.abi; // Your contract's ABI
 const nftContract = new ethers.Contract(contractAddress, contractABI, wallet);
 
 // Mint a new NFT
-async function mintNFT(metadataURI) {
-  const tx = await nftContract.mint(metadataURI);
+async function mintNFT(metadataURI,User) {
+  const tx = await nftContract.addCard(metadataURI,User);
   await tx.wait(); // Wait for the transaction to be confirmed
   console.log('NFT minted!');
 }
 
 // Call the mint function
-mintNFT('https://ipfs.io/ipfs/QmbBWykUR7xW5EALfrpPxhxUkde9pjawKYzCZboaatSDUq');
+mintNFT("http://localhost:3000/cards/dp4","0x70997970C51812dc3A010C7d01b50e0d17dc79C8");

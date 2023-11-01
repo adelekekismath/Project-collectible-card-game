@@ -16,16 +16,18 @@
 //   console.error(error);
 //   process.exitCode = 1;
 // });
-import 'dotenv/config'
-import { DeployFunction } from 'hardhat-deploy/types'
+import 'dotenv/config';
+import { DeployFunction } from 'hardhat-deploy/types';
 
-const deployer: DeployFunction = async hre => {
-  if (hre.network.config.chainId !== 31337) return
-  const { deployer } = await hre.getNamedAccounts()
-  await hre.deployments.deploy('NFTCard', { from: deployer, log: true })
-}
+const deploy: DeployFunction = async hre => {
+  if (hre.network.config.chainId !== 31337) return;
+  const { deployer: deployerAddress } = await hre.getNamedAccounts();
+  await hre.deployments.deploy('Collection', { from: deployerAddress, log: true });
+  console.log('deployed ',deployerAddress)
+};
 
-export default deployer
+export default deploy;
+
 
 
 

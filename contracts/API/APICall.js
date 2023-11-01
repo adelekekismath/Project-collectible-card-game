@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 app.get('/cards/:set', async (req, res) => {
   try {
     const set = req.params.set;
-    const pageSize = 100;
+    const pageSize = 1;
 
     // Construction de l'URL de l'API avec le paramètre set
     const apiUrl = `https://api.pokemontcg.io/v2/cards?pageSize=${pageSize}&q=set.id%3A${set}`;
