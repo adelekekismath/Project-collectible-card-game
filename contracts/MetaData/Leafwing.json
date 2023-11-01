@@ -1,0 +1,13 @@
+{
+    "name": "Leafwing",
+    "description": "Un papillon aux ailes de feuilles colorées.",
+    "pokemon": [
+      {
+        "name": "Leafwing",
+        "type": "Plante",
+        "description": "Un papillon aux ailes de feuilles colorées.",
+        "imageURL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png"
+      }
+    ]
+  }
+  
