@@ -1,0 +1,13 @@
+{
+    "name": "Flamefox",
+    "description": "Un renard enflammé qui crache des flammes.",
+    "pokemon": [
+      {
+        "name": "Flamefox",
+        "type": "Feu",
+        "description": "Un renard enflammé qui crache des flammes.",
+        "imageURL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+      }
+    ]
+  }
+  

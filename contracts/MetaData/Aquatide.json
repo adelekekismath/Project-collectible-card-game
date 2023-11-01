@@ -1,0 +1,13 @@
+{
+    "name": "Aquatide",
+    "description": "Un Pokémon aquatique avec une queue en forme de vague.",
+    "pokemon": [
+      {
+        "name": "Aquatide",
+        "type": "Eau",
+        "description": "Un Pokémon aquatique avec une queue en forme de vague.",
+        "imageURL": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
+      }
+    ]
+  }
+  
