@@ -9,7 +9,7 @@ contract Collection is ERC721URIStorage  {
     uint256 public _cardCount;
     uint256 public _nextTokenId;
     mapping(uint256 => string) private cardMetadata; // Mapping pour stocker les métadonnées des NFT
-    mapping(uint256 => string) private _tokenURIs;
+    string[] public _tokenList;
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {
         _nextTokenId = 0;
     }
@@ -22,9 +22,13 @@ contract Collection is ERC721URIStorage  {
         _mint(user, newItemId);
         _setTokenURI(newItemId, tokenURI);
         _nextTokenId += 1; 
+        _tokenList.push(tokenURI);
         return newItemId;
     }
-
+    function getAllNfts()external view returns(string [] memory)
+    {
+        return _tokenList ; 
+    }
     function setAttributes(string memory name, uint256  cardCount) external{
          _collectionName = name;
          _cardCount = cardCount;
