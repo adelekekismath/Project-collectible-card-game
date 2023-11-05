@@ -6,8 +6,10 @@ const nftContract = new web3.eth.Contract(contractABI, '0x80a1972211265e792DB89f
 const fs = require('fs');
 const axios = require('axios'); // Import the 'axios' module
 const path = "../DataOffChain/allSetsData.json";
+
+
 async function createAllCollections() {
-  const url = 'https://api.pokemontcg.io/v2/sets';
+  const url = 'https://api.pokemontcg.io/v2/sets/dp4';
   try {
     let count = 0;
     const response = await axios.get(url);
@@ -29,7 +31,7 @@ async function createAllCollections() {
       }
     }
     const dataToSave = JSON.stringify(allSetsData, null, 2);
-    fs.writeFileSync(path, dataToSave); // Use fs.writeFileSync for synchronous file write
+    fs.writeFileSync(path, dataToSave);
 
     console.log('Data for all sets saved to allSetsData.json successfully.');
   } catch (error) {

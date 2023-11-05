@@ -1,5 +1,11 @@
 [
   {
+    "setId": "dp4",
+    "setName": "Great Encounters",
+    "setImage": "https://images.pokemontcg.io/dp4/symbol.png",
+    "cardCount": 106
+  },
+  {
     "setId": "base1",
     "setName": "Base",
     "setImage": "https://images.pokemontcg.io/base1/symbol.png",

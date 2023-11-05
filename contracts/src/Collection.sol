@@ -13,6 +13,20 @@ contract Collection is ERC721URIStorage  {
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {
         _nextTokenId = 0;
     }
+    
+    function getAllNFTsWithDetails() external view returns (uint256[] memory, string[] memory, address[] memory) {
+    uint256[] memory tokenIds = new uint256[](_nextTokenId);
+    string[] memory uris = new string[](_nextTokenId);
+    address[] memory owners = new address[](_nextTokenId);
+
+    for (uint256 i = 0; i < _nextTokenId; i++) {
+        tokenIds[i] = i;
+        uris[i] = tokenURI(i);
+        owners[i] = ownerOf(i);
+    }
+
+    return (tokenIds, uris, owners);
+}
 
      function mint(string memory tokenURI, address user)
         public
