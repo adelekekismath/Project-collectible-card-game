@@ -56,9 +56,9 @@ contract Collection is ERC721URIStorage  {
         return _nextTokenId;
     }
 
-    function transferCard(address to, uint256 tokenId) external {
-      require(isApprovedOrOwner(msg.sender, tokenId), "Vous ne pouvez transferer que vos propres cartes");
-      safeTransferFrom(msg.sender, to, tokenId);
+    function transferCard(address from , address to, uint256 tokenId) external {
+      require(isApprovedOrOwner(from, tokenId), "Vous ne pouvez transferer que vos propres cartes");
+      safeTransferFrom(from, to, tokenId);
     }
 
     function isApprovedOrOwner(address spender, uint256 tokenId) internal view returns (bool) {
